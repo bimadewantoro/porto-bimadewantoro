@@ -35,7 +35,7 @@ class AuthController extends Controller
                     ['password' => bcrypt($request->password)]
                 ));
         
-        $success['token'] = $user->createToken('Personal Access Token')->plainTextToken;
+        $success['token'] = $user->createToken('PortoBima')->plainTextToken;
         $success['name'] = $user->name;
 
         return response()->json([
@@ -54,7 +54,7 @@ class AuthController extends Controller
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
-            $success['token'] = $user->createToken('Personal Access Token')->plainTextToken;
+            $success['token'] = $user->createToken('PortoBima')->plainTextToken;
             $success['name'] = $user->name;
 
             return response()->json([
