@@ -12,28 +12,54 @@ const routes = [
     // admin
     {
         path : '/admin/home',
+        name : 'adminHome',
         component : homeAdminIndex,
+        meta : {
+            requiresAuth : true
+        }
     },
     // pages
     {
         path : '/',
+        name : 'home',
         component : homePageIndex,
+        meta : {
+            requiresAuth : false
+        }
     },
     // login
     {
         path : '/login',
+        name : 'login',
         component : login,
+        meta : {
+            requiresAuth : false
+        }
     },
     // not Found
     {
         path : '/:pathMatch(.*)*',
+        name : 'notFound',
         component : notFound,
+        meta : {
+            requiresAuth : false
+        }
     }
 ];
 
 const router = createRouter({
     history : createWebHistory(),
     routes,
+});
+
+router.beforeEach((to, from) => {
+    if (to.meta.requiresAuth && !localStorage.getItem('token')) {
+        return { name : 'login' };
+    }
+
+    if (to.meta.requiresAuth == false && localStorage.getItem('token')) {
+        return { name : 'adminHome' };
+    }
 });
 
 export default router
