@@ -1,23 +1,27 @@
 <script setup>
-    import { reactive, ref } from 'vue'
+    import { reactive, ref } from 'vue';
+    import { useRoute, useRouter } from 'vue-router';
+    import axios from 'axios';
 
-    let data = reactive({
+    const route = useRoute();
+    const router = useRouter();
+    
+    const data = reactive({
         email: '',
         password: ''
-    })
+    });
 
-    let error = ref('')
+    const error = ref('');
 
     const login = async() => {
         try {
             const response = await axios.post('/api/login', data)
+            router.push({ path: '/admin/home' })
             console.log(response)
-        } catch (error) {
-            console.log(error.response.data)
-            error.value = error.response.data.message
+        } catch (err) {
+            error.value = err.response.data.message;
         }
     }
-
 </script>
 
 <template>
@@ -30,6 +34,7 @@
                 <br>
                 <input type="submit" value="Login" class="submit">
             </form>
+            <p class="text-danger" v-if="error">{{ error }}</p>
         </div>
     </div>
 </template>
@@ -96,5 +101,11 @@
         background: #7464bc;
         font-size: 1em;
         text-transform: uppercase;
+    }
+    .text-danger{
+        color: red;
+        font-size: 16px;
+        position: absolute;
+        top: 50%;
     }
 </style>
