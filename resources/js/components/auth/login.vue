@@ -1,9 +1,8 @@
 <script setup>
     import { reactive, ref } from 'vue';
-    import { useRoute, useRouter } from 'vue-router';
+    import { useRouter } from 'vue-router';
     import axios from 'axios';
 
-    const route = useRoute();
     const router = useRouter();
     
     const data = reactive({
@@ -16,6 +15,7 @@
     const login = async() => {
         try {
             const response = await axios.post('/api/login', data)
+            localStorage.setItem('token', response.data.access_token);
             router.push({ path: '/admin/home' })
             console.log(response)
         } catch (err) {
