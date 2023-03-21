@@ -24,7 +24,7 @@ const routes = [
         name : 'home',
         component : homePageIndex,
         meta : {
-            requiresAuth : true
+            requiresAuth : false
         }
     },
     // login
